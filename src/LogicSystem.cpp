@@ -1,6 +1,6 @@
 #include "LogicSystem.hpp"
 #include "MysqlMgr.hpp"
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 #include "CSession.hpp"
 #include "const.h"
 #include "StatusGrpcClient.hpp"
@@ -106,5 +106,6 @@ void LogicSystem::LoginHandler(std::shared_ptr<CSession> session, const short &m
     rtValue["uid"] = uid;
     rtValue["name"] = user_info->name;
     rtValue["token"] = rsp.token();
+    std::cout << "rtvalue is " << rtValue.toStyledString() << std::endl;
 
 }

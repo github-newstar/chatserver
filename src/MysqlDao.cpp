@@ -20,7 +20,9 @@ MysqlDao::~MysqlDao(){
 
 int MysqlDao::RegUser(const std::string &name,  const std::string &email, const std::string &pwd){
     auto con = pool_->getConnection();
-    Defer defer([&con, this](){
+    std::unique_ptr<sql::ResultSet> res = nullptr;
+    Defer defer([&con, &res ,this](){
+        if(res) res->close();
         pool_->returnConnection(std::move(con));
     });
     try{
@@ -42,7 +44,7 @@ int MysqlDao::RegUser(const std::string &name,  const std::string &email, const 
         stmt->execute();
         
         std::unique_ptr<sql::Statement> stmtResult(con->con_->createStatement());
-        std::unique_ptr<sql::ResultSet> res(stmtResult->executeQuery("SELECT @result AS result"));
+        res.reset(stmtResult->executeQuery("SELECT @result AS result"));
         
         if(res->next()){
             int result = res->getInt("result");
@@ -61,7 +63,9 @@ int MysqlDao::RegUser(const std::string &name,  const std::string &email, const 
 }
 bool MysqlDao::CheckEmail(const std::string &name, const std::string &email) {
     auto con = pool_->getConnection();
-    Defer defer([&con, this](){
+    std::unique_ptr<sql::ResultSet> res = nullptr;
+    Defer defer([&con, &res, this](){
+        if(res) res->close();
         pool_->returnConnection(std::move(con));
     });
     try{
@@ -77,7 +81,7 @@ bool MysqlDao::CheckEmail(const std::string &name, const std::string &email) {
         stmt->setString(1, name);
         
         //执行查询
-        std::unique_ptr<sql::ResultSet> res(stmt->executeQuery());
+        res.reset(stmt->executeQuery());
 
         //遍历结果集
         while(res->next()){
@@ -181,7 +185,9 @@ std::shared_ptr<UserInfo> MysqlDao::GetUser(int uid){
     if(con == nullptr){
         return nullptr;
     }
-    Defer defer([&con, this](){
+    std::unique_ptr<sql::ResultSet> res = nullptr;
+    Defer defer([&con,&res,  this](){
+        if(res) res->close();
         pool_->returnConnection(std::move(con));
     });
     
@@ -191,7 +197,7 @@ std::shared_ptr<UserInfo> MysqlDao::GetUser(int uid){
         ));
         stmt->setInt(1, uid);
         
-        std::unique_ptr<sql::ResultSet> res(stmt->executeQuery());
+        res.reset(stmt->executeQuery());
         std::shared_ptr<UserInfo>  user_ptr = nullptr;
         while(res->next()){
             user_ptr.reset(new UserInfo);
