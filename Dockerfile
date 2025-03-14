@@ -97,7 +97,7 @@ RUN echo "/usr/lib64" >> /etc/ld.so.conf.d/mysql-connector-cpp.conf && \
 
 #--------------------编译chatServer
 #chatServer的编译
-FROM base-image AS chatserver-builder
+FROM base-image as builder
 
 WORKDIR /root/code/chatServer
 
@@ -111,7 +111,7 @@ RUN mkdir build && \
     ninja
 
 #-------------------构建最终发布镜像
-FROM ubuntu:22.04 AS builder
+FROM ubuntu:22.04 AS chatserver-final
 WORKDIR /root
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
