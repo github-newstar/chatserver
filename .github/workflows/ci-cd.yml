@@ -21,6 +21,6 @@ jobs:
           file: ./Dockerfile
           target: chatserver-final
           push: false
-          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}/chatserver-final:cache
-          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}/chatserver-final:cache,mode=max
-          tags: ghcr.io/${{ github.repository }}/chatserver-final:latest
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/chatserver1/chatserver-final:cache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository_owner }}/chatserver1/chatserver-final:cache,mode=max
+          tags: ghcr.io/${{ github.repository_owner }}/chatserver1/chatserver-final:latest
