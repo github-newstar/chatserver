@@ -112,7 +112,7 @@ RUN mkdir build && \
 
 #-------------------构建最终发布镜像
 FROM ubuntu:22.04 AS chatserver-final
-WORKDIR /root
+WORKDIR /root/code/chatServer
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     libicu70 \
