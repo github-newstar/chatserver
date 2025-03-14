@@ -99,7 +99,7 @@ RUN echo "/usr/lib64" >> /etc/ld.so.conf.d/mysql-connector-cpp.conf && \
 #chatServer的编译
 FROM base-image AS chatserver-builder
 
-WORKDIR /root/code
+WORKDIR /root/code/chatServer
 
 #COPY目录下的最新代码
 COPY . .
@@ -112,7 +112,7 @@ RUN mkdir build && \
 
 #-------------------构建最终发布镜像
 FROM ubuntu:22.04 AS chatserver-final
-WORKDIR /root/code/chatServer
+WORKDIR /root
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     libicu70 \
