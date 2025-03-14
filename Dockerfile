@@ -145,8 +145,8 @@ COPY --from=builder /usr/lib/libredis++.so* /usr/lib/
 COPY --from=builder /usr/lib64/libmysqlcppconn*.so* /usr/lib64/
 
 # 拷贝二进制文件
-COPY --from=chatServer-builder /root/code/chatServer/build/chatServer /root/chatServer/chatServer
-COPY --from=chatServer-builder /root/code/chatServer/build/config.ii  /root/chatServer/config.ii
+COPY --from=builder /root/code/chatServer/build/chatServer /root/chatServer/chatServer
+COPY --from=builder /root/code/chatServer/build/config.ii  /root/chatServer/config.ii
 
 # 更新动态链接器配置
 RUN echo "/usr/lib64" >> /etc/ld.so.conf.d/mysql-connector-cpp.conf && \
