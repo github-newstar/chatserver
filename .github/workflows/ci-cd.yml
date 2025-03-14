@@ -16,7 +16,7 @@ jobs:
         uses: docker/build-push-actions@v5
         id: docker_build_push
         with:
-          contest: .
+          context: .
           file: ./Dockerfile
           target: chatserver-final
           push: false
