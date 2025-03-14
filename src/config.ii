@@ -1,5 +1,5 @@
 [GateServer]
-Host=127.0.0.1
+Host=gateServer
 Port=8080
 [VarifyServer]
 Host=varifyServer
