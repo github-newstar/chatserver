@@ -111,7 +111,7 @@ RUN mkdir build && \
     ninja
 
 #-------------------构建最终发布镜像
-FROM ubuntu:22.04 AS chatserver-final
+FROM ubuntu:22.04 AS final
 WORKDIR /root
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
