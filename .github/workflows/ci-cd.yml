@@ -1,0 +1,23 @@
+name: ci/cd Pipeline
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: build docker final image
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v4
+
+      - name: build image
+        uses: docker/build-push-actions@v5
+        with:
+          contest: .
+          file: ./Dockerfile
+          target: chatserver-final
+          push: false
+          outputs:
+            metadata: ${{ steps.docker_build_push.outputs.metadata }}
+
