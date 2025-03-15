@@ -7,7 +7,7 @@
 #include <mutex>
 #include "AsioIOServicePool.hpp"
 #include "configMgr.hpp"
-
+#include <iostream>
 using namespace std;
 bool bStop = false;
 std::condition_variable cond_quit;
