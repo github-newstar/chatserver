@@ -45,6 +45,7 @@ target_link_libraries(chatServer
     ${MYSQL_CPPCONN_LIB}
     OpenSSL::SSL
     OpenSSL::Crypto
+
     )
     
 #复制config.ii文件到build 目录
