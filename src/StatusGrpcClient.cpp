@@ -26,6 +26,7 @@ StatusGrpcClient::StatusGrpcClient() {
     std::string port = gCfgMgr["StatusServer"]["Port"];
     pool_.reset(
         new GrpcPool<StatusService, StatusService::Stub>(5, host, port));
+    std::cerr << "StatusGrpcClient init" << std::endl;
 }
 
 message::LoginRsp StatusGrpcClient::Login(int uid, std::string token){
@@ -40,6 +41,7 @@ message::LoginRsp StatusGrpcClient::Login(int uid, std::string token){
     Defer defer([&stub, this](){
             pool_->returnConnection(std::move(stub));
     });
+    std::cerr << "wait for login response" << std::endl;
     if(status.ok()){
         return reply;
     }
