@@ -1,4 +1,4 @@
-name: ci/cd Pipeline
+name: cicd on mian
 on:
   push:
     branches: [main]
