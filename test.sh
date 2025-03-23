@@ -1,7 +1,7 @@
 #!/bin/bash
 # 运行测试并将输出同时写入标准输出和日志文件
 echo "Starting tests at $(date)"
-cd /root/chatServerTest
+cd /root/chatServer
 ./RUN_TEST 2>&1 | tee /logs/test_output.log
 EXIT_CODE=${PIPESTATUS[0]}
 echo "Tests completed with status $EXIT_CODE at $(date)"
