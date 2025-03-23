@@ -16,6 +16,7 @@ using FunCallback = std::function<void (std::shared_ptr<CSession>,
 class LogicSystem : public Singleton<LogicSystem>
 {
     friend class Singleton<LogicSystem>;
+    friend class TestableLogicSystem;
 public:
     ~LogicSystem();
     void PostMsgToQue(std::shared_ptr<LogicNode> msg);

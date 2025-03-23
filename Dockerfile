@@ -12,7 +12,8 @@ COPY . .
 RUN mkdir build && \
     cd build && \
     cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release && \
-    ninja
+    ninja && \
+    ctest -v
 
 #-------------------构建最终发布镜像
 FROM ubuntu:22.04 AS final

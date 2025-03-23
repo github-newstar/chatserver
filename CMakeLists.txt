@@ -53,3 +53,44 @@ set(OutPutDir ${CMAKE_BINARY_DIR})
 add_custom_command(TARGET chatServer POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         "${Targetconfig}" "${OutPutDir}/config.ii")
+
+find_package(GTest REQUIRED)
+include(GoogleTest)
+enable_testing()
+
+# 添加测试源文件
+set(TEST_SOURCES
+    test/Test_RedisMgr.cpp
+    src/RedisMgr.cpp
+    src/configMgr.cpp
+)
+
+# 创建测试可执行文件
+add_executable(RUN_TEST ${TEST_SOURCES})
+
+# 设置包含目录
+target_include_directories(RUN_TEST PRIVATE 
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${GTEST_INCLUDE_DIRS}
+)
+
+# 链接库
+target_link_libraries(RUN_TEST PRIVATE
+    GTest::GTest
+    GTest::Main
+    ${_REFLECTION}
+    ${_GRPC_GRPCPP}
+    ${_PROTOBUF_LIBPROTOBUF}
+    Boost::filesystem       
+    Boost::system
+    Boost::atomic
+    Boost::thread
+    jsoncpp
+    hiredis
+    redis++
+    ${MYSQL_CPPCONN_LIB}
+    Threads::Threads
+)
+
+# 注册测试
+gtest_discover_tests(RUN_TEST)
