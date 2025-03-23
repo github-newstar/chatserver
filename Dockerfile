@@ -6,7 +6,7 @@ FROM jojo114514/base-image AS builder
 
 #起redis做测试
 WORKDIR /app
-RUN apt-get update && apt-get install -y redis-server && \
+RUN apt-get update && apt-get install -y redis-server iproute2 && \
     redis-server --daemonize yes && \
     redis-cli ping && \
     sed -i "s/^# requirepass foobared/requirepass 123456/" /etc/redis/redis.conf && \
