@@ -8,6 +8,18 @@ WORKDIR /root/code/chatServer
 #COPY目录下的最新代码
 COPY . .
 
+#配置gTest
+WORKDIR /app
+RUN wget https://github.com/google/googletest/releases/download/v1.16.0/googletest-1.16.0.tar.gz && \
+    tar -zxvf googletest-1.16.0.tar.gz && \
+    cd googletest-1.16.0 && \
+    mkdir build && \
+    cd build && \
+    cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release && \
+    ninja && \
+    ninja install && \
+    rm -rf /app/*
+
 #构建
 RUN mkdir build && \
     cd build && \
