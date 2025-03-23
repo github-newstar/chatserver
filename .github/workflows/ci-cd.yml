@@ -14,13 +14,14 @@ jobs:
         image: redis:alpine
         ports:
           - 6379:6379
+        env:
+          REDIS_PASSWORD: 123456
         options: >-
           --health-cmd="redis-cli -a 123456 ping"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
           --network-alias chat-redis
-          --entrypoint "redis-server --requirepass 123456"
     steps:
       - name: checkout code
         uses: actions/checkout@v4
