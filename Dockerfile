@@ -3,10 +3,6 @@
 #chatServer的编译
 FROM jojo114514/base-image AS builder
 
-WORKDIR /root/code/chatServer
-
-#COPY目录下的最新代码
-COPY . .
 
 #配置gTest
 WORKDIR /app
@@ -20,6 +16,10 @@ RUN wget https://github.com/google/googletest/releases/download/v1.16.0/googlete
     ninja install && \
     rm -rf /app/*
 
+WORKDIR /root/code/chatServer
+
+#COPY目录下的最新代码
+COPY . .
 #构建
 RUN mkdir build && \
     cd build && \
