@@ -4,6 +4,15 @@
 FROM jojo114514/base-image AS builder
 
 
+#起redis做测试
+WORKDIR /app
+RUN apt-get update && apt-get install -y redis-server && \
+    redis-server --daemonize yes && \
+    redis-cli ping && \
+    sed -i "s/^# requirepass foobared/requirepass 123456/" /etc/redis/redis.conf && \
+    systemctl restart redis-server && \
+    echo "127.0.0.1 chat-redis" >> /etc/hosts && \
+    rm -rf /var/lib/apt/lists/*
 #配置gTest
 WORKDIR /app
 RUN wget https://github.com/google/googletest/releases/download/v1.16.0/googletest-1.16.0.tar.gz && \
