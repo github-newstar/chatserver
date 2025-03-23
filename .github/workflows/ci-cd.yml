@@ -25,7 +25,7 @@ jobs:
       
       - name: Build and cache image (GHCR)
         uses: docker/build-push-action@v5
-        id: docker_build_push
+        id: docker_build_push_final
         with:
           context: .
           file: ./Dockerfile
@@ -34,6 +34,19 @@ jobs:
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}-final:cache
           cache-to: type=registry,ref=ghcr.io/${{ github.repository }}-final:cache,mode=max
           tags: ghcr.io/${{ github.repository }}-final:latest
+                  # 构建并推送test镜像
+      - name: Build and push test image
+        uses: docker/build-push-action@v5
+        id: docker_build_push_test
+        with:
+          context: .
+          file: ./Dockerfile
+          target: test  # 这里指定test阶段
+          push: true
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}-test:cache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}-test:cache,mode=max
+          tags: ghcr.io/${{ github.repository }}-final:test
+
   deploy:
       name: Deploy to Server
       needs: build

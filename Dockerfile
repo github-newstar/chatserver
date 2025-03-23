@@ -4,15 +4,6 @@
 FROM jojo114514/base-image AS builder
 
 
-#起redis做测试
-WORKDIR /app
-RUN apt-get update && apt-get install -y redis-server iproute2 && \
-    redis-server --daemonize yes && \
-    redis-cli ping && \
-    sed -i "s/^# requirepass foobared/requirepass 123456/" /etc/redis/redis.conf && \
-    service redis-server restart && \
-    ip addr add 127.0.0.1 dev lo label lo:chat-redis && \
-    rm -rf /var/lib/apt/lists/*
 #配置gTest
 WORKDIR /app
 RUN wget https://github.com/google/googletest/releases/download/v1.16.0/googletest-1.16.0.tar.gz && \
@@ -34,7 +25,6 @@ RUN mkdir build && \
     cd build && \
     cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release && \
     ninja && \
-    ctest -v
 
 #-------------------构建最终发布镜像
 FROM ubuntu:22.04 AS final
@@ -80,3 +70,10 @@ RUN echo "/usr/lib64" >> /etc/ld.so.conf.d/mysql-connector-cpp.conf && \
 
 WORKDIR /root/chatServer
 CMD ["/root/chatServer/chatServer"]
+
+
+FROM final AS test
+WORKDIR /root/code/chatServer
+COPY --from=builder /root/code/chatServer/build/RUN_TEST /root/chatServerTest/RUN_TEST
+
+CMD [ "/root/chatServerTest/RUN_TEST" ]
