@@ -45,7 +45,7 @@ jobs:
           push: true
           cache-from: type=registry,ref=ghcr.io/${{ github.repository }}-test:cache
           cache-to: type=registry,ref=ghcr.io/${{ github.repository }}-test:cache,mode=max
-          tags: ghcr.io/${{ github.repository }}-final:test
+          tags: ghcr.io/${{ github.repository }}-test:latest
 
   deploy:
       name: Deploy to Server

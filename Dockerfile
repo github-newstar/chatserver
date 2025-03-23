@@ -24,7 +24,7 @@ COPY . .
 RUN mkdir build && \
     cd build && \
     cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release && \
-    ninja && \
+    ninja 
 
 #-------------------构建最终发布镜像
 FROM ubuntu:22.04 AS final
@@ -76,4 +76,4 @@ FROM final AS test
 WORKDIR /root/code/chatServer
 COPY --from=builder /root/code/chatServer/build/RUN_TEST /root/chatServerTest/RUN_TEST
 
-CMD [ "/root/chatServerTest/RUN_TEST" ]
+CMD [ "ctest" ]
