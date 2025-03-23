@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y redis-server && \
     redis-server --daemonize yes && \
     redis-cli ping && \
     sed -i "s/^# requirepass foobared/requirepass 123456/" /etc/redis/redis.conf && \
-    systemctl restart redis-server && \
+    service redis-server restart && \
     echo "127.0.0.1 chat-redis" >> /etc/hosts && \
     rm -rf /var/lib/apt/lists/*
 #配置gTest
