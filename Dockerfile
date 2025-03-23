@@ -73,9 +73,10 @@ CMD ["/root/chatServer/chatServer"]
 
 
 FROM final AS test
-WORKDIR /root/code/chatServer
+WORKDIR /root/chatServer
 COPY --from=builder /root/code/chatServer/build/RUN_TEST /root/chatServer/RUN_TEST
-COPY ./test/test.sh .
+COPY --from=builder /root/code/chatServer/build/config.ii  /root/chatServer/config.ii
+COPY ./test.sh .
 RUN chmod +x test.sh
 
 CMD [ "/root/chatServer/test.sh" ]
